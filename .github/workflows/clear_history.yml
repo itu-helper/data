@@ -1,0 +1,26 @@
+name: Clear History
+
+on:
+  push:
+
+jobs:
+  refresh_lessons:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clones the repo
+      - name: Checkout Repo Content
+        uses: actions/checkout@v2
+
+      # Clears the history
+      - name: Clear History
+        run: |
+          git config --global user.email "data-updater@itu-helper.com"
+          git config --global user.name "ITU Helper"
+          git checkout --orphan latest_branch
+          git add -A
+          git commit -am "Cleared History."
+          git branch -D main
+          git branch -m main
+          git push -f origin main
+  
